@@ -2,7 +2,6 @@ class HashTable(object):
     def __init__(self, capacity=10):
         # Initiate our array with empty values.
         self.map = [None] * capacity
-        print(self.map)
 
     def hash(self, key):
         """Get the index of our array for a specific string key"""
@@ -12,10 +11,7 @@ class HashTable(object):
         """Add a value to our array by its key"""
         index = self.hash(key)
 
-        print(index)
-
         if self.map[index] is not None:
-            print('in if')
             # This index already contains some values.
             # This means that this add MIGHT be an update
             # to a key that already exists. Instead of just storing the
@@ -32,7 +28,6 @@ class HashTable(object):
                     # so we can simply just add it to the end.
                     self.map[index].append([key, value])
         else:
-            print('in else')
             # This index is empty. We should initiate
             # a list and append our key-value-pair to it.
             self.map[index] = []
