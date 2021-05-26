@@ -12,4 +12,8 @@ print(result)
 package1 = Package(1, '123 sesame st', 'malvern',
                    'oh', 44644, '12:20', 14, None)
 
-print(package1.get_package())
+print(package1.package_to_string())
+
+package1.set_zip(44718)
+
+print(package1.package_to_string())
