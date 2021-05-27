@@ -1,19 +1,15 @@
 from hash_table import HashTable
 from package import Package
+import csv
 
 hash_table = HashTable()
 
-hash_table.insert(1, "foo")
+with open('./data/packages.csv', 'r', encoding='utf-8-sig') as csvfile:
+    package_reader = csv.reader(csvfile)
+    for row in package_reader:
+        hash_table.insert(row[0],
+                          Package(row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7]))
 
 result = hash_table.lookup(1)
 
-print(result)
-
-package1 = Package(1, '123 sesame st', 'malvern',
-                   'oh', 44644, '12:20', 14, None)
-
-print(package1.package_to_string())
-
-package1.set_zip(44718)
-
-print(package1.package_to_string())
+print(result.id)
