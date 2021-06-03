@@ -1,51 +1,27 @@
 class HashTable(object):
-    def __init__(self, capacity=10):
+    def __init__(self, capacity=40):
         # Initiate our array with empty values.
-        self.map = [None] * capacity
+        self.table = []
+        for i in range(capacity):
+            self.table.append([])
 
-    def hash(self, key):
+    def get_hash(self, key):
         """Get the index of our array for a specific string key"""
-        return int(key) % len(self.map)
+        return int(key) % len(self.table)
 
     def insert(self, key, value):
-        """Add a value to our array by its key"""
-        index = self.hash(key)
-
-        if self.map[index] is not None:
-            # This index already contains some values.
-            # This means that this add MIGHT be an update
-            # to a key that already exists. Instead of just storing the
-            # value we have to first look if the key exists.
-            for kvp in self.map[index]:
-                # If key is found then update,
-                # its current value to the new value.
-                if kvp[0] == key:
-                    kvp[1] = value
-                    break
-                else:
-                    # If no breaks was hit in the for loop, it
-                    # means that no existing key was found,
-                    # so we can simply just add it to the end.
-                    self.map[index].append([key, value])
-        else:
-            # This index is empty. We should initiate
-            # a list and append our key-value-pair to it.
-            self.map[index] = []
-            self.map[index].append([key, value])
+        index = self.get_hash(key)
+        kvp = [key, value]
+        self.table[index] = list([kvp])
 
     def lookup(self, key):
         """Get a value by key"""
-        index = self.hash(key)
-        if self.map[index] == None:
-            raise KeyError()
+        index = self.get_hash(key)
+        if self.table[index] is not None:
+            bucket_list = self.table[index]
+            for i, value in bucket_list:
+                if int(i) == key:
+                    return value
         else:
-            # Loop through all key-value-pairs
-            # and find if our key exist. If it does
-            # then return its value.
-            for kvp in self.map[index]:
-                if kvp[0] == key:
-                    return kvp[1]
-
-            # If no return was done during loop,
-            # it means key didn't exist.
-            raise KeyError()
+            print("Not found.")
+            return None
