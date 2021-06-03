@@ -10,6 +10,7 @@ with open('./data/packages.csv', 'r', encoding='utf-8-sig') as csvfile:
         hash_table.insert(row[0],
                           Package(row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7]))
 
-result = hash_table.lookup(1)
 
-print(result.id)
+result = hash_table.lookup(40)
+
+print(result)
