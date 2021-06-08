@@ -66,7 +66,9 @@ class Package:
     def set_time_delivered(self, time_delivered):
         self.time_delivered = time_delivered
 
-    def package_to_string(self):
-        package_info = f"PACKAGE ID: {self.id}\tADDRESS: {self.address}, {self.city}, {self.zip}\tWEIGHT: " \
-                       f"{self.weight}\tDEADLINE: {self.deadline}\tSTATUS: Delivered({str(self.time_delivered)})"
-        return package_info
+    # TODO: possibly modify this to go on the same line? also the status prompt
+    def to_string(self):
+        package_info = 'ID: {id}\nAddress: {address}, {city} {zip}\nWeight: {weight}\nDeadline: {deadline}\nStatus: Delivered({time_delivered})'.format(
+            id=self.id, address=self.address, city=self.city, zip=self.zip, weight=self.weight, deadline=self.deadline, time_delivered=self.time_delivered
+        )
+        print(package_info)
