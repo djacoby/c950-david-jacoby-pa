@@ -8,6 +8,7 @@ class Package:
         self.deadline = deadline
         self.weight = weight
         self.special_instructions = special_instructions
+        self.status = 'At hub'
         self.time_delivered = None
 
     # Getters
@@ -38,6 +39,9 @@ class Package:
     def get_time_delivered(self):
         return self.time_delivered
 
+    def get_status(self):
+        return self.status
+
     # Setters
     def set_id(self, id):
         self.id = id
@@ -66,7 +70,13 @@ class Package:
     def set_time_delivered(self, time_delivered):
         self.time_delivered = time_delivered
 
-    def package_to_string(self):
-        package_info = f"PACKAGE ID: {self.id}\tADDRESS: {self.address}, {self.city}, {self.zip}\tWEIGHT: " \
-                       f"{self.weight}\tDEADLINE: {self.deadline}\tSTATUS: Delivered({str(self.time_delivered)})"
-        return package_info
+    def set_status(self, status):
+        self.status = status
+
+    # TODO: possibly modify this to go on the same line?
+    def to_string(self):
+        package_info = 'ID: {id}\nAddress: {address}, {city} {zip}\nWeight: {weight}\nDeadline: {deadline}\nStatus: {status}({time_delivered})'.format(
+            id=self.id, address=self.address, city=self.city, zip=self.zip, weight=self.weight, deadline=self.deadline, status=self.status,
+            time_delivered=self.time_delivered if self.time_delivered is not None else ''
+        )
+        print(package_info)
