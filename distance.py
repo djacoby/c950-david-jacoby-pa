@@ -12,8 +12,3 @@ def address_lookup(address):
     for entry in address_list:
         if entry[2] == address:
             return entry[0]
-
-
-address = address_lookup('2600 Taylorsville Blvd')
-
-print(address)

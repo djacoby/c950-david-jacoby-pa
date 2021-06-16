@@ -1,3 +1,4 @@
+# TODO: implement a resize method to make this data structure "self-adjusting"
 class HashTable(object):
     def __init__(self, capacity=40):
         # Initiate our array with empty values.
