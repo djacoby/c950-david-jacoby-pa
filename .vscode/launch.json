@@ -8,7 +8,7 @@
       "name": "Python: main.py",
       "type": "python",
       "request": "launch",
-      "program": "distance.py",
+      "program": "load_trucks.py",
       "console": "integratedTerminal"
     }
   ]
