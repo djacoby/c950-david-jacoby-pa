@@ -35,21 +35,9 @@ second_truck = get_second_load()
 calc_shortest_distance(second_truck, 2, 0)
 optimized_second_truck = get_second_truck_indices()
 
-third_truck = get_first_load()
+third_truck = get_third_load()
 calc_shortest_distance(third_truck, 3, 0)
 optimized_third_truck = get_third_truck_indices()
-
-# prev_address = 0
-
-# for index, package in enumerate(optimized_first_truck):
-#     if index == len(optimized_first_truck):
-#         break
-#     else:
-#         package = hash_table.lookup(package)
-#         address = address_lookup(package.address)
-#         total_distance += get_current_distance(prev_address, address)
-#         prev_address = address
-
 
 def deliver_packages(truck):
     distance = 0
