@@ -2,23 +2,30 @@ from hash_table import HashTable
 from package import Package
 import csv
 
-hash_table = HashTable()
+from distance import get_first_truck, get_second_truck, calc_shortest_distance, get_third_truck
+from load_trucks import get_first_load, get_second_load, get_third_load
 
-with open('./data/packages.csv', 'r', encoding='utf-8-sig') as csvfile:
-    package_reader = csv.reader(csvfile)
-    for row in package_reader:
-        package = Package(row[0], row[1], row[2], row[3],
-                          row[4], row[5], row[6], row[7])
-        break
-        # hash_table.insert(row[0],
-        #                   Package(row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7]))
+first = get_first_load()
+second = get_second_load()
+third = get_third_load()
 
+print(first)
+print('')
+print(second)
+print('')
+print(third)
+print('')
 
-# result = hash_table.lookup(2)
+calc_shortest_distance(first, 1, 0)
+calc_shortest_distance(second, 2, 0)
+calc_shortest_distance(third, 3, 0)
 
-# print(result.address)
+firstD = get_first_truck()
+secondD = get_second_truck()
+thirdD = get_third_truck()
 
-# result.to_string()
-
-package.set_status('In transit')
-package.to_string()
+print('')
+print(firstD)
+print(secondD)
+print(thirdD)
+print('')
