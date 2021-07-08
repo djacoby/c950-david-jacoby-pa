@@ -5,8 +5,6 @@ from package import Package
 
 hash_table = HashTable()
 
-MAX_CAPACITY = 16
-
 first_truck = []
 second_truck = []
 third_truck = []
@@ -28,30 +26,30 @@ with open('./data/packages.csv', 'r', encoding='utf-8-sig') as csv_file:
 
         if deadline != 'EOD':
             if 'Must' in special_instructions or 'None' in special_instructions:
-                first_truck.append(package.id)
+                first_truck.append(package)
                 continue
 
         if 'Can' in special_instructions:
-            second_truck.append(package.id)
+            second_truck.append(package)
             continue
 
         if 'Delayed' in special_instructions:
-            second_truck.append(package.id)
+            second_truck.append(package)
             continue
 
         if 'Wrong' in special_instructions:
-            third_truck.append(package.id)
+            third_truck.append(package)
             continue
 
         if 'Must' in special_instructions:
-            first_truck.append(package.id)
+            first_truck.append(package)
             continue
 
-        if package.id not in first_truck and package.id not in second_truck and package.id not in third_truck:
+        if package not in first_truck and package not in second_truck and package not in third_truck:
             if len(second_truck) > len(third_truck):
-                third_truck.append(package.id)
+                third_truck.append(package)
             else:
-                second_truck.append(package.id)
+                second_truck.append(package)
 
         hash_table.insert(id, package)
 
@@ -60,25 +58,13 @@ def get_hash_table():
     return hash_table
 
 
-def get_first_truck():
+def get_first_load():
     return first_truck
 
 
-def get_second_truck():
+def get_second_load():
     return second_truck
 
 
-def get_third_truck():
+def get_third_load():
     return third_truck
-
-
-# first = get_first_truck()
-# second = get_second_truck()
-# third = get_third_truck()
-
-# print(len(first))
-# print(first)
-# print(len(second))
-# print(second)
-# print(len(third))
-# print(third)
