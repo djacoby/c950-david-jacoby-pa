@@ -1,4 +1,4 @@
-from datetime import datetime, date
+from datetime import datetime, date, timedelta
 
 from load_trucks import (
     get_first_load,
@@ -10,11 +10,8 @@ from load_trucks import (
 from optimize_trucks import (
     address_lookup,
     get_current_distance,
-    get_first_truck,
     get_first_truck_indices,
-    get_second_truck,
     get_second_truck_indices,
-    get_third_truck,
     get_third_truck_indices,
     calc_shortest_distance,
 )
@@ -44,22 +41,20 @@ calc_shortest_distance(third_truck, 3, 0)
 optimized_third_truck = get_third_truck_indices()
 
 
+def convert_time_delta(time_stamp):
+    (hrs, mins, secs) = time_stamp.split(':')
+    return timedelta(
+        hours=int(hrs), minutes=int(mins), seconds=int(secs))
+
+
 def get_time(current_time, distance):
-    parsed_time = datetime.strptime(current_time, "%H:%M:%S")
+    # parsed_time = datetime.strptime(current_time, "%H:%M:%S")
     distance_minutes = distance / 18
     new_time_string = '{0:02.0f}:{1:02.0f}'.format(
         *divmod(distance_minutes * 60, 60)) + ':00'
-    parsed_new_time = datetime.strptime(
-        new_time_string, "%H:%M:%S")
-    new_hours = parsed_time.hour + parsed_new_time.hour
-    new_minutes = parsed_time.minute + parsed_new_time.minute
-    if new_minutes > 59:
-        new_minutes = new_minutes - 60
-        new_hours += 1
-    new_seconds = parsed_time.second + parsed_new_time.second
-    new_time = datetime(date.today().year, date.today().month,
-                        date.today().day, new_hours, new_minutes, new_seconds)
-    return new_time.strftime("%H:%M:%S")
+    curr_delta = convert_time_delta(current_time)
+    new_time_delta = convert_time_delta(new_time_string)
+    return str(curr_delta + new_time_delta)
 
 
 def deliver_packages(truck, distance, time):
@@ -70,12 +65,14 @@ def deliver_packages(truck, distance, time):
             break
         else:
             package = hash_table.lookup(package)
+            # Fix address for package #9
+            if package.id == 9:
+                package.set_address('410 S State St')
             address = address_lookup(package.address)
             distance = get_current_distance(prev_address, address)
             time = get_time(time, distance)
             package.set_status('Delivered')
             package.set_time_delivered(time)
-            print(package.time_delivered)
             total_distance += distance
             prev_address = address
 
@@ -91,4 +88,6 @@ third_distance = deliver_packages(
 
 total_distance = first_distance + second_distance + third_distance
 
-print(total_distance)
+
+def get_total_distance():
+    return total_distance

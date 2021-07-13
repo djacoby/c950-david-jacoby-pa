@@ -1,55 +1,46 @@
-from load_trucks import get_first_load, get_second_load, get_third_load, get_hash_table
-from hash_table import HashTable
-from package import Package
-import csv
+import datetime
 
-from optimize_trucks import (
-    get_first_truck,
-    get_first_truck_indices,
-    get_second_truck,
-    get_second_truck_indices,
-    get_third_truck,
-    get_third_truck_indices,
-    calc_shortest_distance
-)
+from optimize_trucks import get_hash_table, get_all_truck_indices
+from deliver import get_total_distance, convert_time_delta
 
+total_distance = get_total_distance()
+hash_table = get_hash_table()
+all_truck_indices = get_all_truck_indices()
 
-first = get_first_load()
-# second = get_second_load()
-# third = get_third_load()
+print("""\
+ __          _______ _    _ _____  _    _  _____    _____    ____  _    _ _______ _____ _   _  _____ 
+ \ \        / / ____| |  | |  __ \| |  | |/ ____|  |  __ \  / __ \| |  | |__   __|_   _| \ | |/ ____|
+  \ \  /\  / / |  __| |  | | |__) | |  | | (___    | |__) || |  | | |  | |  | |    | | |  \| | |  __ 
+   \ \/  \/ /| | |_ | |  | |  ___/| |  | |\___ \   |  _  / | |  | | |  | |  | |    | | | . ` | | |_ |
+    \  /\  / | |__| | |__| | |    | |__| |____) |  | | \ \ | |__| | |__| |  | |   _| |_| |\  | |__| |
+     \/  \/   \_____|\____/|_|    \____/ |_____/   |_|  \_\ \____/ \____/   |_|  |_____|_| \_|\_____|
 
-for package in first:
-    print(package)
+                         _____  _____    ____   _____ _____            __  __ 
+                        |  __ \|  __ \  / __ \ / ____|  __ \     /\   |  \/  |
+                        | |__) | |__) || |  | | |  __| |__) |   /  \  | \  / |
+                        |  ___/|  _  / | |  | | | |_ |  _  /   / /\ \ | |\/| |
+                        | |    | | \ \ | |__| | |__| | | \ \  / ____ \| |  | |
+                        |_|    |_|  \_\ \____/ \_____|_|  \_\/_/    \_\_|  |_|
+  """)
 
-print('-----------------------------------')
+print(f'\nThe route was completeted in {total_distance:.2f} miles\n')
 
-# for package in second:
-#     print(package.id)
+user_input = input("""
+Please select an option below:
+  0. Exit
+  1. Get the info for all packages at a particular time.
+  2. Get the info for a specific package at a particular time.
+""")
 
-# print('-----------------------------------')
-
-# for package in third:
-#     print(package.id)
-
-# print('-----------------------------------')
-
-calc_shortest_distance(first, 1, 0)
-# calc_shortest_distance(second, 2, 0)
-# calc_shortest_distance(third, 3, 0)
-
-firstD = get_first_truck_indices()
-# secondD = get_second_truck_indices()
-# thirdD = get_third_truck_indices()
-
-for package in firstD:
-    print(package)
-
-print('-----------------------------------')
-
-# for package in secondD:
-#     print(package)
-
-# print('-----------------------------------')
-
-# for package in thirdD:
-#     print(package)
+while user_input != '0':
+    if user_input == '1':
+        input_time = input("Enter a time (HH:MM:SS) ")
+        user_time_delta = convert_time_delta(input_time)
+        for index, id in enumerate(all_truck_indices):
+            package = hash_table.lookup(id)
+            time_delivered = package.get_time_delivered()
+            delivered_delta = convert_time_delta(time_delivered)
+            if delivered_delta.seconds > user_time_delta.seconds:
+                package.set_time_delivered(None)
+                package.set_status('Not Delivered')
+            package.to_string()
