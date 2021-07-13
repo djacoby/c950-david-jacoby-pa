@@ -8,7 +8,7 @@ class Package:
         self.deadline = deadline
         self.weight = weight
         self.special_instructions = special_instructions
-        self.status = 'At hub'
+        self.status = 'Not Delivered'
         self.time_delivered = None
 
     # Getters

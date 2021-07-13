@@ -54,7 +54,7 @@ def calc_shortest_distance(load, truck, curr_location):
                 package = hash_table.lookup(id)
                 next_location = address_lookup(package.address)
 
-                if get_current_distance(location, next_location) <= lowest_distance:
+                if get_current_distance(curr_location, next_location) <= lowest_distance:
                     lowest_distance = get_current_distance(
                         curr_location, next_location)
                     location = next_location
@@ -69,21 +69,21 @@ def calc_shortest_distance(load, truck, curr_location):
                         first_truck_indices.append(package.id)
                         load.pop(load.index(id))
                         curr_location = location
-                        calc_shortest_distance(load, truck, curr_location)
+                        calc_shortest_distance(load, 1, curr_location)
 
                     elif truck == 2:
                         second_truck.append(package)
                         second_truck_indices.append(package.id)
                         load.pop(load.index(id))
                         curr_location = location
-                        calc_shortest_distance(load, truck, curr_location)
+                        calc_shortest_distance(load, 2, curr_location)
 
                     elif truck == 3:
                         third_truck.append(package)
                         third_truck_indices.append(package.id)
                         load.pop(load.index(id))
                         curr_location = location
-                        calc_shortest_distance(load, truck, curr_location)
+                        calc_shortest_distance(load, 3, curr_location)
         except IndexError:
             pass
 

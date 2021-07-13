@@ -25,7 +25,7 @@ with open('./data/packages.csv', 'r', encoding='utf-8-sig') as csv_file:
                           deadline, weight, special_instructions)
 
         hash_table.insert(id, package)
-        
+
         if '84104' in zip and '10:30' not in deadline:
             third_truck.append(package.id)
 
@@ -38,17 +38,9 @@ with open('./data/packages.csv', 'r', encoding='utf-8-sig') as csv_file:
             second_truck.append(package.id)
             continue
 
-        # if 'Delayed' in special_instructions:
-        #     second_truck.append(package.id)
-        #     continue
-
-        # if 'Wrong' in special_instructions:
-        #     third_truck.append(package.id)
-        #     continue
-
-        # if 'Must' in special_instructions:
-        #     first_truck.append(package.id)
-        #     continue
+        if 'Must' in special_instructions:
+            first_truck.append(package.id)
+            continue
 
         if package.id not in first_truck and package.id not in second_truck and package.id not in third_truck:
             if len(second_truck) > len(third_truck):
@@ -71,13 +63,3 @@ def get_second_load():
 
 def get_third_load():
     return third_truck
-
-first = get_first_load()
-second = get_second_load()
-third = get_third_load()
-
-print(first)
-print('')
-print(second)
-print('')
-print(third)
