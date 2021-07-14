@@ -8,7 +8,7 @@ class Package:
         self.deadline = deadline
         self.weight = weight
         self.special_instructions = special_instructions
-        self.status = 'At hub'
+        self.status = 'Not Delivered'
         self.time_delivered = None
 
     # Getters
@@ -73,9 +73,8 @@ class Package:
     def set_status(self, status):
         self.status = status
 
-    # TODO: possibly modify this to go on the same line?
     def to_string(self):
-        package_info = 'ID: {id}\nAddress: {address}, {city} {zip}\nWeight: {weight}\nDeadline: {deadline}\nStatus: {status}({time_delivered})'.format(
+        package_info = 'ID: {id}\nAddress: {address}, {city} {zip}\nWeight: {weight}\nDeadline: {deadline}\nStatus: {status}({time_delivered})\n'.format(
             id=self.id, address=self.address, city=self.city, zip=self.zip, weight=self.weight, deadline=self.deadline, status=self.status,
             time_delivered=self.time_delivered if self.time_delivered is not None else ''
         )

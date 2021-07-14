@@ -5,6 +5,7 @@ from package import Package
 
 hash_table = HashTable()
 
+package_indices = []
 first_truck = []
 second_truck = []
 third_truck = []
@@ -12,7 +13,7 @@ third_truck = []
 with open('./data/packages.csv', 'r', encoding='utf-8-sig') as csv_file:
     package_reader = csv.reader(csv_file)
     for row in package_reader:
-        id = row[0]
+        id = int(row[0])
         address = row[1]
         city = row[2]
         state = row[3]
@@ -24,34 +25,30 @@ with open('./data/packages.csv', 'r', encoding='utf-8-sig') as csv_file:
         package = Package(id, address, city, state, zip,
                           deadline, weight, special_instructions)
 
+        package_indices.append(id)
+        hash_table.insert(id, package)
+
+        if '84104' in zip and '10:30' not in deadline:
+            third_truck.append(package.id)
+
         if deadline != 'EOD':
             if 'Must' in special_instructions or 'None' in special_instructions:
-                first_truck.append(package)
+                first_truck.append(package.id)
                 continue
 
-        if 'Can' in special_instructions:
-            second_truck.append(package)
-            continue
-
-        if 'Delayed' in special_instructions:
-            second_truck.append(package)
-            continue
-
-        if 'Wrong' in special_instructions:
-            third_truck.append(package)
+        if 'Can' in special_instructions or 'Delayed' in special_instructions:
+            second_truck.append(package.id)
             continue
 
         if 'Must' in special_instructions:
-            first_truck.append(package)
+            first_truck.append(package.id)
             continue
 
-        if package not in first_truck and package not in second_truck and package not in third_truck:
+        if package.id not in first_truck and package.id not in second_truck and package.id not in third_truck:
             if len(second_truck) > len(third_truck):
-                third_truck.append(package)
+                third_truck.append(package.id)
             else:
-                second_truck.append(package)
-
-        hash_table.insert(id, package)
+                second_truck.append(package.id)
 
 
 def get_hash_table():
@@ -68,3 +65,7 @@ def get_second_load():
 
 def get_third_load():
     return third_truck
+
+
+def get_package_indices():
+    return package_indices

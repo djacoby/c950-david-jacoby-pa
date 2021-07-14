@@ -1,31 +1,78 @@
-from hash_table import HashTable
-from package import Package
-import csv
+from optimize_trucks import get_hash_table
+from deliver import get_total_distance, convert_time_delta
+from load_trucks import get_package_indices
 
-from distance import get_first_truck, get_second_truck, calc_shortest_distance, get_third_truck
-from load_trucks import get_first_load, get_second_load, get_third_load
+total_distance = get_total_distance()
+hash_table = get_hash_table()
+all_truck_indices = get_package_indices()
 
-first = get_first_load()
-second = get_second_load()
-third = get_third_load()
+dash = '-' * 40
 
-print(first)
-print('')
-print(second)
-print('')
-print(third)
-print('')
 
-calc_shortest_distance(first, 1, 0)
-calc_shortest_distance(second, 2, 0)
-calc_shortest_distance(third, 3, 0)
+def get_user_time_input():
+    input_time = input("Enter a time (HH:MM:SS): ")
+    user_time_delta = convert_time_delta(input_time)
+    return user_time_delta
 
-firstD = get_first_truck()
-secondD = get_second_truck()
-thirdD = get_third_truck()
 
-print('')
-print(firstD)
-print(secondD)
-print(thirdD)
-print('')
+def print_table_header():
+    print(dash)
+    print('ID         DEADLINE          STATUS')
+    print(dash)
+
+
+def print_package_info(id, user_time_delta):
+    package = hash_table.lookup(id)
+    time_delivered = package.get_time_delivered()
+    delivered_delta = convert_time_delta(time_delivered)
+    status = f'ID: {package.id}{" " if package.id <= 9 else ""}  Deadline: {package.deadline}{"     " if package.deadline == "EOD" else ""} Status: Delivered at {package.time_delivered}'
+    if delivered_delta.seconds > user_time_delta.seconds:
+        status = f'ID: {package.id}{" " if package.id <= 9 else ""}  Deadline: {package.deadline}{"     " if package.deadline == "EOD" else ""} Status: Not Delivered'
+    print(status)
+
+
+def prompt_user():
+    return input("""
+  Please select an option below:
+    0. Exit
+    1. Get the info for all packages at a particular time.
+    2. Get the info for a specific package at a particular time.
+  """)
+
+
+print("""\
+ __          _______ _    _ _____  _    _  _____    _____    ____  _    _ _______ _____ _   _  _____
+ \ \        / / ____| |  | |  __ \| |  | |/ ____|  |  __ \  / __ \| |  | |__   __|_   _| \ | |/ ____|
+  \ \  /\  / / |  __| |  | | |__) | |  | | (___    | |__) || |  | | |  | |  | |    | | |  \| | |  __
+   \ \/  \/ /| | |_ | |  | |  ___/| |  | |\___ \   |  _  / | |  | | |  | |  | |    | | | . ` | | |_ |
+    \  /\  / | |__| | |__| | |    | |__| |____) |  | | \ \ | |__| | |__| |  | |   _| |_| |\  | |__| |
+     \/  \/   \_____|\____/|_|    \____/ |_____/   |_|  \_\ \____/ \____/   |_|  |_____|_| \_|\_____|
+
+                         _____  _____    ____   _____ _____            __  __
+                        |  __ \|  __ \  / __ \ / ____|  __ \     /\   |  \/  |
+                        | |__) | |__) || |  | | |  __| |__) |   /  \  | \  / |
+                        |  ___/|  _  / | |  | | | |_ |  _  /   / /\ \ | |\/| |
+                        | |    | | \ \ | |__| | |__| | | \ \  / ____ \| |  | |
+                        |_|    |_|  \_\ \____/ \_____|_|  \_\/_/    \_\_|  |_|
+  """)
+
+print(f'\nThe route was completeted in {total_distance:.2f} miles\n')
+
+user_input = prompt_user()
+
+while user_input != '0':
+    try:
+        if user_input == '1':
+            user_time_delta = get_user_time_input()
+            for index, id in enumerate(all_truck_indices):
+                print_package_info(id, user_time_delta)
+        elif user_input == '2':
+            package_id = input("Enter a package id: ")
+            user_time_delta = get_user_time_input()
+            print_package_info(int(package_id), user_time_delta)
+        else:
+            print("Invalid input, exiting now...")
+            exit()
+    except ValueError:
+        print('Invalid input, exiting now...')
+        exit()
