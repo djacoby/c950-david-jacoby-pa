@@ -5,6 +5,7 @@ from package import Package
 
 hash_table = HashTable()
 
+package_indices = []
 first_truck = []
 second_truck = []
 third_truck = []
@@ -24,6 +25,7 @@ with open('./data/packages.csv', 'r', encoding='utf-8-sig') as csv_file:
         package = Package(id, address, city, state, zip,
                           deadline, weight, special_instructions)
 
+        package_indices.append(id)
         hash_table.insert(id, package)
 
         if '84104' in zip and '10:30' not in deadline:
@@ -63,3 +65,7 @@ def get_second_load():
 
 def get_third_load():
     return third_truck
+
+
+def get_package_indices():
+    return package_indices

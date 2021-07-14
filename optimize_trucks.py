@@ -114,7 +114,3 @@ def get_third_truck():
 
 def get_third_truck_indices():
     return third_truck_indices
-
-
-def get_all_truck_indices():
-    return first_truck_indices + second_truck_indices + third_truck_indices
