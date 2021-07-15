@@ -1,4 +1,4 @@
-from datetime import datetime, date, timedelta
+from datetime import timedelta
 
 from load_trucks import (
     get_first_load,
@@ -40,15 +40,16 @@ third_truck = get_third_load()
 calc_shortest_distance(third_truck, 3, 0)
 optimized_third_truck = get_third_truck_indices()
 
-
+# Convert timestamp string to time_delta
+# Big 0 = 0(1)
 def convert_time_delta(time_stamp):
     (hrs, mins, secs) = time_stamp.split(':')
     return timedelta(
         hours=int(hrs), minutes=int(mins), seconds=int(secs))
 
-
+# Convert distance traveled to time
+# Big 0 = 0(1)
 def get_time(current_time, distance):
-    # parsed_time = datetime.strptime(current_time, "%H:%M:%S")
     distance_minutes = distance / 18
     new_time_string = '{0:02.0f}:{1:02.0f}'.format(
         *divmod(distance_minutes * 60, 60)) + ':00'
@@ -56,7 +57,8 @@ def get_time(current_time, distance):
     new_time_delta = convert_time_delta(new_time_string)
     return str(curr_delta + new_time_delta)
 
-
+# Deliver packages to their destination
+# Big 0 = 0(n)
 def deliver_packages(truck, distance, time):
     total_distance = 0
     prev_address = 0
@@ -88,6 +90,7 @@ third_distance = deliver_packages(
 
 total_distance = first_distance + second_distance + third_distance
 
-
+# Get total distance traveled for all trucks
+# Big 0 = 0(1)
 def get_total_distance():
     return total_distance
