@@ -1,3 +1,5 @@
+# David Jacoby Student ID: #000306735
+
 from optimize_trucks import get_hash_table
 from deliver import get_total_distance, convert_time_delta
 from load_trucks import get_package_indices
@@ -8,19 +10,22 @@ all_truck_indices = get_package_indices()
 
 dash = '-' * 40
 
-
+# Prompt user for a time and convert to time_delta
+# Big O = 0(1)
 def get_user_time_input():
     input_time = input("Enter a time (HH:MM:SS): ")
     user_time_delta = convert_time_delta(input_time)
     return user_time_delta
 
-
+# Print table header for package status info
+# Big 0 = 0(1)
 def print_table_header():
     print(dash)
     print('ID         DEADLINE          STATUS')
     print(dash)
 
-
+# Print package status info
+# Big 0 = 0(1)
 def print_package_info(id, user_time_delta):
     package = hash_table.lookup(id)
     time_delivered = package.get_time_delivered()
@@ -30,7 +35,8 @@ def print_package_info(id, user_time_delta):
         status = f'ID: {package.id}{" " if package.id <= 9 else ""}  Deadline: {package.deadline}{"     " if package.deadline == "EOD" else ""} Status: Not Delivered'
     print(status)
 
-
+# Prompt user for info selection (single package/ all packages)
+# Big 0 = 0(1)
 def prompt_user():
     return input("""
   Please select an option below:
@@ -60,6 +66,7 @@ print(f'\nThe route was completeted in {total_distance:.2f} miles\n')
 
 user_input = prompt_user()
 
+# Driver for program
 while user_input != '0':
     try:
         if user_input == '1':

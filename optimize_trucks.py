@@ -3,14 +3,14 @@ from load_trucks import get_hash_table
 
 hash_table = get_hash_table()
 
-# Read disance & address csv files
+# Read distance & address csv files
 with open('./data/distances.csv', 'r', encoding='utf-8-sig') as distance_csv:
     distance_list = list(csv.reader(distance_csv))
 
 with open('./data/addresses.csv', 'r', encoding='utf-8-sig') as address_csv:
     address_list = list(csv.reader(address_csv))
 
-
+# Lookup address
 def address_lookup(address):
     for entry in address_list:
         if entry[2] == address:
