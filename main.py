@@ -43,7 +43,7 @@ def prompt_user():
   Please select an option below:
     1. Get the info for all packages at a particular time.
     2. Get the info for a specific package at a particular time.
-    (Press any other key to exit at any time)
+    (Enter any other key to exit at any time)
   """)
 
 
