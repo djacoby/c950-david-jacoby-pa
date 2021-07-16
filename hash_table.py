@@ -8,19 +8,19 @@ class HashTable(object):
             self.table.append([])
     
     # Hash key of object
-    # Big 0 = 0(1)
+    # Big O = O(1)
     def get_hash(self, key):
         return int(key) % len(self.table)
 
     # Insert key value pair of object into Hash Table
-    # Big 0 = 0(1)
+    # Big O = O(1)
     def insert(self, key, value):
         index = self.get_hash(key)
         kvp = [key, value]
         self.table[index] = list([kvp])
 
     # Lookup value based off of hashed key
-    # Big 0 = 0(n)
+    # Big O = O(n)
     def lookup(self, key):
         index = self.get_hash(key)
         if self.table[index] is not None:

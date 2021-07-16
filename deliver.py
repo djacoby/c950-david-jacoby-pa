@@ -28,6 +28,7 @@ first_distance = 0
 second_distance = 0
 third_distance = 0
 
+# Get sorted trucks from load_trucks.py and optimize them using our Greedy Algorithmm
 first_truck = get_first_load()
 calc_shortest_distance(first_truck, 1, 0)
 optimized_first_truck = get_first_truck_indices()
@@ -41,14 +42,14 @@ calc_shortest_distance(third_truck, 3, 0)
 optimized_third_truck = get_third_truck_indices()
 
 # Convert timestamp string to time_delta
-# Big 0 = 0(1)
+# Big O = O(1)
 def convert_time_delta(time_stamp):
     (hrs, mins, secs) = time_stamp.split(':')
     return timedelta(
         hours=int(hrs), minutes=int(mins), seconds=int(secs))
 
 # Convert distance traveled to time
-# Big 0 = 0(1)
+# Big O = O(1)
 def get_time(current_time, distance):
     distance_minutes = distance / 18
     new_time_string = '{0:02.0f}:{1:02.0f}'.format(
@@ -58,10 +59,11 @@ def get_time(current_time, distance):
     return str(curr_delta + new_time_delta)
 
 # Deliver packages to their destination
-# Big 0 = 0(n)
+# Big O = O(n)
 def deliver_packages(truck, distance, time):
     total_distance = 0
     prev_address = 0
+    # Big O = O(n)
     for index, package in enumerate(truck):
         if index == len(truck):
             break
@@ -80,7 +82,7 @@ def deliver_packages(truck, distance, time):
 
     return total_distance
 
-
+# Send optimized truck loads out for delivery at their apropriate time
 first_distance = deliver_packages(
     optimized_first_truck, first_distance, first_truck_departure_time)
 second_distance = deliver_packages(
@@ -91,6 +93,6 @@ third_distance = deliver_packages(
 total_distance = first_distance + second_distance + third_distance
 
 # Get total distance traveled for all trucks
-# Big 0 = 0(1)
+# Big O = O(1)
 def get_total_distance():
     return total_distance
